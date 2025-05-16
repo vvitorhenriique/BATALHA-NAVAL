@@ -1,1 +1,44 @@
-
+Batalha naval (2,0) – Avaliação 21/05/2024.
+Desenvolva um programa em java que simule uma batalha naval. Implemente as
+seguintes classes:
+1. MAPA: Representa o oceano através de uma matriz de caracteres. O
+tamanho deve ser grande o suficiente para comportar as embarcações e
+os espaços sem embarcações. O mapa vai ser mostrado aos jogadores
+inicialmente com o valor ‘O’ (oculto). Os espaços vazios (V) devem ser
+pelo menos 70% de todo espaço disponível. Devem existir 2 mapas, um
+que será mostrado ao jogador e outro de controle interno da lógica de
+jogo (0,16).
+2. Embarcação: Representa uma embarcação a ser colocada no mapa. Devem
+ser criados os seguintes tipos de embarcação (uso herança obrigatório):
+(i) – 2 Porta Aviões, representados pela letra (a), ocupando 8 posições no
+mapa, (ii)- 3 destroyers, representados pela letra (d), ocupando 5
+posições no mapa, (iii) – 4 submarinos, representados pela letra (s),
+ocupando 4 posições no mapa, (iv) 5 fragatas, representados pela letra
+(f), ocupando 3 posições no mapa e finalmente (v) 6 botes, representados
+pela letra (b), ocupando 2 posições no mapa. As embarcações deverão
+ser alocadas no mapa de forma horizontal, vertical e diagonal,
+obrigatoriamente, de maneira proporcional. Não podem ter embarcações
+adjacentes sem pelo menos um espaço vazio mapa. (0,35)
+3. Jogador: Representa um jogador, sendo necessário calcular a pontuação
+do jogador em cada acerto a uma embarcação (0,16)
+4. Jogo: Controla toda a lógica do jogo. O acerto é sempre inferido através
+de 2 coordenadas na matriz do mapa. Quando um jogador acerta uma
+embarcação, deve ser marcado um X no mapa (ao acertar um pedaço da
+embarcação o jogador neutraliza aquela embarcação). Caso alguma
+embarcação seja acertada pelo adversário ela deve ser marcada com Y no
+mapa. É importante que o mapa parcial seja exibido a ambos jogadores
+em cada rodada, sendo assim, a classe jogo fica responsável por atualizar
+o estado do mapa para os jogadores a cada rodada. Finalmente, o jogo
+deve informar qual jogador ganhou, o ganhador é o jogador que abateu
+5 ou mais embarcações. (0,5)
+5. Sockets: O jogo deve suportar jogadores remotos em computadores
+distintos, implemente via socket (0,5).
+6. Persistência: O jogo deve manter o estado da partida em arquivos (sql
+pode ser usado de forma opcional por conta e risco do aluno), caso o
+programa seja encerrado, deve ter uma opção de continuar a partida
+anterior, no exato estado que ela se encontrava quando a aplicação foi
+encerrada. Em cada partida o checkpoint de persistência deve ser feito
+logo depois de qualquer um dos jogadores fazerem uma jogada. Deve-se 
+também ser mantido um log dos jogadores e suas pontuações. Assim
+que um jogador ganhar ou perder deve mostrar a posição no rank de
+jogadores do jogador em questão. (0,31)
