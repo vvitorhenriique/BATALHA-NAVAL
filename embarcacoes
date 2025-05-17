@@ -1,0 +1,23 @@
+package jogo.embarcacoes;
+
+public abstract class Embarcacao {
+    protected int tamanho;
+    protected char simbolo;
+    protected int posX, posY;
+    protected Direcao direcao;
+
+    public enum Direcao { HORIZONTAL, VERTICAL, DIAGONAL }
+
+    public Embarcacao(int tamanho, char simbolo) {
+        this.tamanho = tamanho;
+        this.simbolo = simbolo;
+    }
+
+    public int getTamanho() { return tamanho; }
+    public char getSimbolo() { return simbolo; }
+    public void setPosicao(int x, int y, Direcao d) {
+        this.posX = x;
+        this.posY = y;
+        this.direcao = d;
+    }
+}
