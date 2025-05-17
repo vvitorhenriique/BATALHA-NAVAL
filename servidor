@@ -1,0 +1,36 @@
+package jogo.socket;
+
+import java.io.*;
+import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Servidor {
+    private static final int PORTA = 12345;
+    private static final int MAX_JOGADORES = 2;
+
+    public static void main(String[] args) {
+        System.out.println("Servidor iniciado, aguardando jogadores...");
+        ExecutorService pool = Executors.newFixedThreadPool(MAX_JOGADORES);
+
+        try (ServerSocket serverSocket = new ServerSocket(PORTA)) {
+            for (int i = 1; i <= MAX_JOGADORES; i++) {
+                Socket socket = serverSocket.accept();
+                System.out.println("Jogador " + i + " conectado: " + socket.getInetAddress());
+                pool.execute(new JogadorHandler(socket, i));
+            }
+            pool.shutdown();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class JogadorHandler implements Runnable {
+    private Socket socket;
+    private int id;
+    private BufferedReader in;
+    private PrintWriter out;
+
+    public JogadorHandler(Socket socket, int id) {
+        this.socket =
