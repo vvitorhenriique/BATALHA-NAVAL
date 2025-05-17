@@ -1,0 +1,45 @@
+package jogo;
+
+import java.io.Serializable;
+
+public class Jogador implements Serializable {
+    private String nome;
+    private int pontuacao;
+    private Mapa mapaProprio;
+    private Mapa mapaOponente;
+
+    public Jogador(String nome) {
+        this.nome = nome;
+        this.pontuacao = 0;
+        this.mapaProprio = new Mapa();
+        this.mapaOponente = new Mapa();
+        mapaProprio.gerarEmbarcacoes(); // implementar adequadamente para embarcações diferentes
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getPontuacao() {
+        return pontuacao;
+    }
+
+    public boolean atacar(Jogador oponente, int x, int y) {
+        char resultado = oponente.mapaProprio.receberAtaque(x, y);
+        if (resultado != '-') {
+            pontuacao++;
+            mapaOponente.atualizarAtaque(x, y, 'X');
+            return true;
+        } else {
+            mapaOponente.atualizarAtaque(x, y, 'O');
+            return false;
+        }
+    }
+
+    public void mostrarMapas() {
+        System.out.println("--- Seu Mapa ---");
+        mapaProprio.exibir();
+        System.out.println("--- Mapa do Oponente ---");
+        mapaOponente.exibir();
+    }
+}
