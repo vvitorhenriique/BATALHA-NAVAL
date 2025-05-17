@@ -1,0 +1,78 @@
+package jogo;
+
+import java.io.*;
+import java.util.Scanner;
+
+public class Jogo implements Serializable {
+    private Jogador jogador1;
+    private Jogador jogador2;
+    private Jogador jogadorAtual;
+    private transient Scanner scanner = new Scanner(System.in);
+
+    public Jogo(String nome1, String nome2) {
+        jogador1 = new Jogador(nome1);
+        jogador2 = new Jogador(nome2);
+        jogadorAtual = jogador1;
+    }
+
+    public void iniciar() {
+        System.out.println("Jogo iniciado entre " + jogador1.getNome() + " e " + jogador2.getNome());
+        while (!verificarFimDeJogo()) {
+            jogarRodada();
+            salvarEstado();
+            alternarJogador();
+        }
+        exibirVencedor();
+    }
+
+    private void jogarRodada() {
+        Jogador oponente = (jogadorAtual == jogador1) ? jogador2 : jogador1;
+        System.out.println("Vez do jogador: " + jogadorAtual.getNome());
+        jogadorAtual.mostrarMapas();
+
+        System.out.print("Digite a coordenada X para ataque (0 a 9): ");
+        int x = scanner.nextInt();
+        System.out.print("Digite a coordenada Y para ataque (0 a 15): ");
+        int y = scanner.nextInt();
+
+        boolean acertou = jogadorAtual.atacar(oponente, x, y);
+        System.out.println(acertou ? "Acertou!" : "Errou!");
+    }
+
+    private void alternarJogador() {
+        jogadorAtual = (jogadorAtual == jogador1) ? jogador2 : jogador1;
+    }
+
+    private boolean verificarFimDeJogo() {
+        return jogador1.getPontuacao() >= 5 || jogador2.getPontuacao() >= 5;
+    }
+
+    private void exibirVencedor() {
+        if (jogador1.getPontuacao() >= 5) {
+            System.out.println("O jogador " + jogador1.getNome() + " venceu!");
+        } else if (jogador2.getPontuacao() >= 5) {
+            System.out.println("O jogador " + jogador2.getNome() + " venceu!");
+        }
+    }
+
+    private void salvarEstado() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("jogo_salvo.dat"))) {
+            out.writeObject(this);
+            System.out.println("Estado do jogo salvo com sucesso.");
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar o jogo: " + e.getMessage());
+        }
+    }
+
+    public static Jogo carregarJogo() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("jogo_salvo.dat"))) {
+            Jogo jogo = (Jogo) in.readObject();
+            jogo.scanner = new Scanner(System.in);
+            System.out.println("Jogo carregado com sucesso.");
+            return jogo;
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Erro ao carregar o jogo: " + e.getMessage());
+            return null;
+        }
+    }
+}
